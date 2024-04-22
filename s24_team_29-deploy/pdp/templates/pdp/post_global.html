@@ -1,0 +1,265 @@
+{% extends 'pdp/postBase.html' %}
+
+{% block title %}Global Stream - Your Website Title{% endblock %}
+
+{% block page_name %}Patient posts{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'pdp/post.css' %}">
+<div class="container">
+
+    <div class="post-section" id="post-container">
+        <div class="left_part">
+            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" id="selected_button">General</button>
+                <button type="button" class="btn btn-default">Internal medicine</button>
+                <button type="button" class="btn btn-default">Surgical</button>
+                <button type="button" class="btn btn-default">Stomatology</button>
+                <button type="button" class="btn btn-default">Dermatology</button>
+                <button type="button" class="btn btn-default">Obstetrics and Gynecology</button>
+            </div>
+            {% for post in posts %}
+            <div class="post" id="id_post_div_{{ post.id }}">
+                <a href="fake" id="id_post_profile_{{ post.id }}"> {{ post.author.first_name }} {{ post.author.last_name }}</a>
+                : <span id="id_post_date_time_{{ post.id }}" class="time">{{ post.created_at|date:"n/j/Y g:i A" }}</span>
+                <p id="id_post_text_{{ post.id }}"> Question: {{ post.content }}</p>
+
+                <!-- Comments for the post -->
+                {% for comment in post.comments.all %}
+                <div class="comment" id="id_comment_div_{{comment.id}}">
+                    <p id ="id_comment_text_{{comment.id}}">{{comment.text}}</p>
+                    <a href="fake"  id="id_comment_profile_{{comment.id}}">
+                        {{ comment.author.first_name }} {{ comment.author.last_name }}
+                    </a> – <span class="time" id="id_comment_date_time_{{comment.id}}">{{ comment.created_at|date:"n/j/Y g:i A" }}</span>
+                </div>
+                {% endfor %}
+
+                <!-- Form to add a comment -->
+                <form method="post" action="{% url 'add-comment' %}" class="comment-form" data-post-id="{{ post.id }}">
+                    {% csrf_token %}
+                    <label for="id_comment_input_text_{{ post.id }}" class="new-comment-label">Comment:</label>
+                    <textarea name="text" id="id_comment_input_text_{{ post.id }}" placeholder="Enter your comment here" required></textarea>
+                    <button type="submit" id="id_comment_button_{{ post.id }}">Submit</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="form-container">
+        <div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="{% static 'images/doctor_pic1.jpg' %}" alt="Card image cap" style="width: 300px; height: 200px;">
+              <div class="card-body">
+                <h5 class="card-title">Experts online</h5>
+                <p class="card-text">upmc famous doctor consultation</p>
+                <a href="#" class="btn btn-primary">Ask doctor</a>
+              </div>
+        </div>
+        <form method="post"  action="{% url 'create_post' %}"  id="post-form">
+        {% csrf_token %}
+            <div>
+                <select name="category" id="id_category">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="id_post_input_text" class="new-post-label">Quick question to the doctor: </label>
+                <textarea  type="text" name="content" id="id_post_input_text" placeholder="Enter your question here"></textarea>
+                <input type="hidden" name="author" value="{{ current_user.username }}">
+                <button type="submit" id="id_post_button">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- About page content goes here -->
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 添加按钮点击事件监听器
+    $('.btn').click(function() {
+        // 移除所有按钮的 'clicked' 类
+        $('.btn').removeClass('clicked');
+        // 将 'clicked' 类添加到被点击的按钮
+        $(this).addClass('clicked');
+    });
+});
+
+function fetchUpdates() {
+    $.ajax({
+        url: '/fetch-posts/',
+        type: 'GET', // 更改为使用 GET 请求
+        data: { 'last_update': $('#post-container').find('.post').first().data('timestamp') }, // 将数据作为查询参数发送
+        success: function(response) {
+            response.posts.forEach(function(post) {
+                if ($('#id_post_div_' + post.id).length === 0) {
+                    // 构建帖子的 HTML 结构
+                    var postHtml = '<div class="post" id="id_post_div_' + post.id + '">' +
+                        '<a href="/user_profile/' + post.author_username + '" id="id_post_profile_' + post.id + '">' +
+                        post.author_first_name + ' ' + post.author_last_name + '</a> – ' +
+                        '<span class="time" id="id_post_date_time_' + post.id + '">' + post.created_at + '</span>' +
+                        '<p id="id_post_text_' + post.id + '">' + post.content + '</p>';
+
+                    // 构建评论的 HTML 结构
+                    post.comments.forEach(function(comment) {
+                        postHtml += '<div class="comment" id="id_comment_div_' + comment.id + '">' +
+                            '<p  id ="id_comment_text_' + comment.id + '">' + comment.text + '</p>' +
+                            '<a href="/user_profile/' + comment.author_username + '/" id="id_comment_profile_' + comment.id + '">' +
+                            comment.author_first_name + ' ' + comment.author_last_name + '</a> – ' +
+                            '<span class="time" id="id_comment_date_time_' + comment.id+ '">' + comment.created_at + '</span>' +
+                            '</div>';
+                    });
+
+                    // 构建添加评论的表单 HTML 结构
+                    var commentFormActionUrl = '/add-comment/';
+                    postHtml += '<form method="post" action="' + commentFormActionUrl + '" class="comment-form" data-post-id="' + post.id + '">' +
+                        '<label for="id_comment_input_text_' + post.id + '" class="new-comment-label">Comment:</label>' +
+                        '<textarea name="text" id="id_comment_input_text_' + post.id + '" placeholder="Enter your comment here" required></textarea>' +
+                        '<button type="submit" id="id_comment_button_' + post.id + '">Submit</button>' +
+                        '</form></div>'; // 关闭帖子的 div 标签
+
+                    // 将新的帖子（包括评论和评论表单）添加到容器的开头
+                    $('.left_part').find('.btn-group').after(postHtml);
+                }else {
+                    // 如果帖子已经存在，检查每条评论是否存在
+                    post.comments.forEach(function(comment) {
+                        var commentSelector = $('#id_comment_div_' + comment.id);
+                        if (commentSelector.length === 0) {
+                            // 如果评论在页面上不存在，构建并添加这条新评论
+                            var commentHtml = '<div class="comment" id="id_comment_div_' + comment.id + '">' +
+                                '<p id ="id_comment_text_' + comment.id + '">' + comment.text + '</p>' +
+                                '<a href="/user_profile/' + comment.author_username + '/" id="id_comment_profile_' + comment.id + '">' +
+                                comment.author_first_name + ' ' + comment.author_last_name + '</a> – ' +
+                                '<span class="time" id="id_comment_date_time_' + comment.id + '">' + comment.created_at + '</span>' +
+                                '</div>';
+
+                            $('#id_post_div_' + post.id).find('p:first').after(commentHtml);
+                            console.log('#id_post_div_' + post.id);
+                            $('#id_comment_input_text_' + post.id).val(''); // Clear the input field for new post content
+                        }
+                    });
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching updates:", error);
+        }
+    });
+}
+$(document).ready(function() {
+    setInterval(fetchUpdates, 5000);
+});
+
+$(document).ready(function() {
+    // Handle new post form submission
+    $('#post-form').submit(function(e) {
+        e.preventDefault(); // 阻止默认提交行为
+        var formData = $(this).serialize();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: "POST",
+            data: formData,
+            beforeSend: function(xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", $('[name="csrfmiddlewaretoken"]').val());
+            },
+            success: function(response) {
+                console.log(response.post.author);
+
+                if (response.success && response.post) {
+                     var actionUrl = "/add-comment/"; // Adjust according to  URL structure
+                        console.log(actionUrl);
+                    var newPostHtml = `
+                        <div class="post" id="id_post_div_${response.post.id}">
+                            <a href="/user_profile/${response.post.author}/" id="id_post_profile_${response.post.id}">
+                                ${response.post.first_name} ${response.post.last_name}</a> –
+                            <span class="time" id="id_post_date_time_${response.post.id}">${response.post.created_at}</span>
+                            <p id="id_post_text_${response.post.id}"> Question: ${response.post.content}</p>
+
+
+                            <!-- Comment form for the new post -->
+                            <form method="post" action="${actionUrl}" class="comment-form" data-post-id="${ response.post.id }">
+                                {% csrf_token %}
+                                <label for="id_comment_input_text_${ response.post.id }" class="new-comment-label">Comment:</label>
+                                <textarea name="text" id="id_comment_input_text_${ response.post.id }" placeholder="Enter your comment here" required></textarea>
+                                <button type="submit" id="id_comment_button_${ response.post.id }">Submit</button>
+                            </form>
+
+                            {% for comment in post.comments.all %}
+                                 <div class="comment" id="id_comment_div_${comment.id}">
+                                    <p>{{comment.text}}</p>
+                                    <a href="{% url 'user_profile' comment.author.username %}"  id="id_comment_profile_${comment.id}">
+                                        {{ comment.author.first_name }} {{ comment.author.last_name }}
+                                    </a> – <span class="time">{{ comment.created_at|date:"n/j/Y g:i A" }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    `;
+                    $('.left_part').find('.btn-group').after(newPostHtml);
+                    $('#id_post_input_text').val(''); // Clear the input field for new post content
+                } else {
+                    console.error("Failed to create new post:", response.errors);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+
+        });
+        return false; // 阻止默认行为
+    });
+
+    // Handle comment form submission
+    $(document).on('submit', '.comment-form', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData(this); // Use FormData to handle form data, including CSRF token
+        var actionUrl = $(this).attr('action'); // Ensure action attribute is correctly set in the form
+        var postId = $(this).data('post-id'); // Get the post ID from the form's data attribute
+        var commentText = $(this).find('textarea[name="text"]').val(); // Get the comment text from the textarea
+        console.log("here");
+        console.log(commentText);
+        $.ajax({
+            url: actionUrl,
+            type: "POST",
+            data: {
+                comment_text: commentText,
+                post_id: postId
+            },
+            beforeSend: function(xhr, settings) {
+                 xhr.setRequestHeader('X-CSRFToken',$('[name="csrfmiddlewaretoken"]').val());
+            },
+            success: function(response) {
+                // Handle success
+                console.log(response);
+                if (response.success && response.comment) {
+                    // Logic to display the new comment without page reload
+                    // Example:
+                    var commentHtml = '<div class="comment" id="id_comment_div_' + response.comment.id + '">' +
+                        '<p id ="id_comment_text_'+response.comment.id+'">' + response.comment.text + '</p>' +
+                        '<a href="/user_profile/' + response.comment.username + '" id="id_comment_profile_' + response.comment.id + '">' +
+                        response.comment.first_name + ' ' + response.comment.last_name +
+                        '</a> – <span class="time" id="id_comment_date_time_' + response.comment.id + '">' + response.comment.created_at + '</span>' +
+                        '</div>';
+
+                    $('#id_post_div_' + response.comment.post_id).find('p:first').after(commentHtml);
+                    $('#id_comment_input_text_' + response.comment.post_id).val(''); // Clear the input field for new post content
+
+                } else {
+                    // Handle failure (e.g., display error messages)
+                    alert("Failed to add comment");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error submitting comment:", error);
+            }
+        });
+    });
+});
+
+</script>
+{% endblock %}

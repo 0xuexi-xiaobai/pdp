@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blog Master{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'pdp/styles.css' %}">
+</head>
+<body>
+
+<header>
+    <div id="id_header_div">
+        <h1 class="site-name" id="id_site_name">Carnegie health</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'global' %}" id="id_nav_global_stream">Post</a></li>
+                <li><a href="{% url 'article' %}" id="id_nav_article_stream">Article(mock data)</a></li>
+                <li><a href="{% url 'logout' %}" id="id_nav_logout">Logout</a></li>
+                <!-- Add more navigation links as needed -->
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <h2 class="page-name" id="id_page_name">{% block page_name %}Page Name{% endblock %}</h2>
+    {% block content %}
+    <!-- Page-specific content goes here -->
+    {% endblock %}
+</main>
+
+<footer>
+    <!-- Footer content goes here -->
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+.big-heading {
+    font-size: xx-large;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: center;
+    padding: 25px 50px;
+}
+
+.user-info {
+    text-align: right;
+    font-family: sans-serif; 
+    padding-right: 10px;
+    font-size: x-large;
+}
+.commentclass{
+    margin-left: 30px;
+}
+.message {
+    color:blue;
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    font-family: sans-serif;
+    padding: 25px 50px;
+}
+#id_header_div{
+    background-color: antiquewhite;
+}
+.search-bar {
+    text-align: center;
+    padding: 25px 50px;
+}
+.comment-section{
+    margin-left: 30px;
+}
+.post_text{
+    font-family: 'Courier New', Courier, monospace;
+}
+.comment_text{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.profile-name{
+    font-weight: bold; 
+    color:aqua;
+}
+
+.date-time{
+    color:blue
+}
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    font-family: sans-serif;
+    font-size: x-large;
+    padding: 25px 50px;
+}
+
+p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 2em; /* 40px if the base font size is 16px */
+    color: #2c3e50; /* Dark shade of blue */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    padding: 0.5em 0;
+    margin: 0.5em 0;
+    font-weight: bold;
+    letter-spacing: 1px; /* Adds spacing between characters */
+}
+.errorlist {
+    color:red;
+}
+
+.list {
+    padding: 3px;
+}
+
+.list-link {
+    padding: 5px;
+}
+
+.list-link:hover {
+     background-color:lightgray;
+}
+
+th {
+    font-weight: normal;
+    text-align: left;
+}
+
+a {
+     text-decoration: none;
+     color:black;
+}
+
+button {
+    font-size: x-large;
+    padding: 3px;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f7f7f7; /* Updated background color for a softer look */
+}
+input {
+    font-size: x-large;
+}
+
+div, form {
+    padding: 4px;
+}
+
+
+.navlink {
+    background-color: lightgray;
+}
+
+.letter {
+    padding: 3px;
+    font-family: sans-serif;
+    font-size: x-large;
+
+}
+
+.letter:hover {
+     background-color:lightgray;
+}

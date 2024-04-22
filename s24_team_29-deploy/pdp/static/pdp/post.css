@@ -1,0 +1,72 @@
+/* Post Styles */
+.left_part{
+    border: 1px solid #ccc; /* Light grey border */
+    margin-left: 17%;  /* Center the post and add margin on top and bottom */
+    padding: 10px; /* Add some padding inside the post */
+    width: 80%; /* Set the width of the post to 80% of its parent element */
+}
+.post {
+    border: 1px solid #ccc; /* Light grey border */
+    margin: 5px auto; /* Center the post and add margin on top and bottom */
+    padding: 5px; /* Add some padding inside the post */
+    width: 90%; /* Set the width of the post to 80% of its parent element */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow to make posts 'pop' */
+    background-color: #fff; /* White background for posts */
+}
+
+/* Ensure the form-container is also centered and does not exceed the post width */
+.form-container {
+    width: 80%;
+    margin: 10px auto; /* Center the form container */
+}
+
+/* In case you also want the comments to have a similar style */
+.comment {
+    border: 1px solid #eee; /* Lighter grey border for comments */
+    margin-bottom: 10px; /* Add space between comments */
+    padding: 10px; /* Padding inside the comment */
+    background-color: #f9f9f9; /* Slightly off-white background for comments */
+}
+
+/* Additional CSS styles */
+.container {
+    display: flex;
+
+}
+
+.post-section {
+    flex: 7;
+     /*  border: 1px solid #ccc; Light grey border */
+}
+
+.form-container {
+    flex: 3;
+}
+.btn-group{
+    margin: 5px auto; /* Center the post and add margin on top and bottom */
+    padding: 5px;
+    width: 90%;
+    border: 1px solid #ccc; /* Light grey border */
+}
+.btn {
+        border-color: transparent !important;
+}
+.btn.clicked {
+    background-color: #ADD8E6;
+    color: #fff;
+}
+
+
+.new-post-label,
+#id_post_button {
+    display: block;
+    margin-bottom: 10px; /* 可以根据需要调整间距 */
+}
+
+#id_post_input_text {
+    width: 300px; /* 设置textarea的宽度为300像素 */
+    height: 150px; /* 设置textarea的高度为150像素 */
+}
+.card-img-top {
+    margin-bottom: 0; /* 取消图片底部的外边距 */
+}

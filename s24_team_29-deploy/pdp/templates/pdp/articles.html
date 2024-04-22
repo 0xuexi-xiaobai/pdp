@@ -1,0 +1,44 @@
+{% extends 'pdp/postBase.html' %}
+
+{% block title %}Global Stream - Your Website Title{% endblock %}
+
+{% block page_name %}Popular science articles{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'pdp/post.css' %}">
+<div class="form-container">
+
+</div>
+<!-- About page content goes here -->
+
+<div class="post-section" id="post-container">
+    <!-- First Post -->
+    <div class="post" id="id_post_div_1">
+        <a href="#" id="id_post_profile_1">John Doe</a>: <span id="id_post_date_time_1" class="time">3/18/2024 10:30 AM</span>
+        <p id="id_post_text_1">This is the content of the first article.</p>
+        
+        <!-- Comments for the first post -->
+        <div class="comment" id="id_comment_div_1">
+            <p id="id_comment_text_1">First comment on the first post.</p>
+            <a href="#" id="id_comment_profile_1">Jane Doe</a> – <span class="time" id="id_comment_date_time_1">3/18/2024 11:00 AM</span>
+        </div>
+        <div class="comment" id="id_comment_div_2">
+            <p id="id_comment_text_2">Second comment on the first post.</p>
+            <a href="#" id="id_comment_profile_2">Alice Smith</a> – <span class="time" id="id_comment_date_time_2">3/18/2024 11:30 AM</span>
+        </div>
+    </div>
+
+    <!-- Second Post -->
+    <div class="post" id="id_post_div_2">
+        <a href="#" id="id_post_profile_2">Jane Smith</a>: <span id="id_post_date_time_2" class="time">3/17/2024 9:45 PM</span>
+        <p id="id_post_text_2">This is the content of the second article.</p>
+        
+        <!-- Comments for the second post -->
+        <div class="comment" id="id_comment_div_3">
+            <p id="id_comment_text_3">First comment on the second post.</p>
+            <a href="#" id="id_comment_profile_3">Bob Johnson</a> – <span class="time" id="id_comment_date_time_3">3/18/2024 10:00 AM</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

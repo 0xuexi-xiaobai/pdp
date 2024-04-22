@@ -1,0 +1,37 @@
+/* CSS styles for Blog Master section */
+* {
+    font-size: 18px;
+}
+#id_header_div {
+    background-color: antiquewhite; /* Set background color to blue */
+    padding: 10px; /* Add padding for better visual appearance */
+}
+.form-group {
+    margin: 10px 0;
+}
+.site-name {
+    display: inline-block; /* Ensure site name and nav links are on the same line */
+    margin-right: 20px; /* Add margin between site name and nav links */
+    color: blank; /* Set text color to blank */
+}
+nav ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+nav ul li {
+    display: inline; /* Display navigation links horizontally */
+    margin-right: 10px; /* Add margin between navigation links */
+}
+nav ul li a {
+    color: blank; /* Set text color to blank */
+    text-decoration: none; /* Remove underline from links */
+}
+.new-post-container {
+    display: flex; /* Use flexbox to align items in a row */
+    align-items: center; /* Center items vertically */
+}
+
+.new-post-label {
+    margin-right: 10px; /* Add some spacing between the label and the input field */
+}

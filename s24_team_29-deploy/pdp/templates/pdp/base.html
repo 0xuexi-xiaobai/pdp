@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    {% load static %}
+		<link href="{% static 'pdp/base.css' %}" rel="stylesheet" type="text/css">
+		<title> {% block title %} PDP Platform {% endblock %} </title>
+	</head>
+
+	<body>
+        <div id="id_header_div">
+            <div class="big-heading" id="2_site_name">
+                PDP Platform
+            </div>
+            <div class="user-info">
+                {% block user-info %}
+                {% endblock %}
+            </div>
+        </div>
+
+	    {% if message %}
+	        <div class="message">
+	            {{message}}
+	        </div>
+	    {% endif %}
+
+	    <div class="content">
+		    {% block content %}
+		    {% endblock %}
+		</div>
+	</body>
+</html>
