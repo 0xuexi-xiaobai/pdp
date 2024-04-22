@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-x_ar!_zhzkmoy#%gq(^ar6f*@t*qtb9h4qh3dep6o^3^3qwuqd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com','https://pdp-react-24b010926bd2.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com','https://pdp-react-24b010926bd2.herokuapp.com','localhost']
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
